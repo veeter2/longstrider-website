@@ -102,7 +102,7 @@ export function Footer() {
 
         {/* Bottom Bar */}
         <div className="pt-8 border-t border-border/50 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-muted-foreground text-sm">© 2025 Longstrider.ai. All rights reserved.</p>
+          <p className="text-muted-foreground text-sm">© 2026 Longstrider.ai. All rights reserved.</p>
           <div className="flex gap-6 text-sm">
             <Link href="/privacy" className="text-muted-foreground hover:text-foreground transition-colors">
               Privacy
