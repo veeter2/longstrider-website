@@ -250,7 +250,11 @@ export default function BeAVendorPage() {
               Schedule a consultation with our team to discuss your vision, requirements, and how we can partner to
               bring your specialized Longstrider to life.
             </p>
-            <Link href="https://calendly.com/longstriderai/consultation" target="_blank" rel="noopener noreferrer">
+            <Link
+              href="https://calendly.com/longstriderai/vendor-consultation"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               <Button size="lg" className="cosmic-glow">
                 Schedule Your Consultation
                 <ArrowRight className="w-4 h-4 ml-2" />

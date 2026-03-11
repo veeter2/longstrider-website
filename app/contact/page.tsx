@@ -10,7 +10,7 @@ import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { useToast } from "@/hooks/use-toast"
-import { Mail, Phone, MapPin, Clock, Send, Loader2 } from "lucide-react"
+import { Mail, MapPin, Send, Loader2 } from "lucide-react"
 
 export default function ContactPage() {
   const [isLoading, setIsLoading] = useState(false)
@@ -31,22 +31,10 @@ export default function ContactPage() {
       description: "Send us a message anytime",
     },
     {
-      icon: Phone,
-      title: "Phone",
-      content: "+1 (555) 123-4567",
-      description: "Mon-Fri, 9AM-6PM PST",
-    },
-    {
       icon: MapPin,
-      title: "Address",
-      content: "123 Innovation Drive\nSan Francisco, CA 94105",
-      description: "Visit our headquarters",
-    },
-    {
-      icon: Clock,
-      title: "Support",
-      content: "24/7 Available",
-      description: "Round-the-clock assistance",
+      title: "Location",
+      content: "Austin, TX",
+      description: "Pioneering from Texas",
     },
   ]
 
@@ -54,48 +42,77 @@ export default function ContactPage() {
     setFormData((prev) => ({ ...prev, [field]: value }))
   }
 
+  const isValidEmail = (email: string) => {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
+  }
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+
+    if (!isValidEmail(formData.email)) {
+      toast({
+        title: "Invalid email",
+        description: "Please enter a valid email address.",
+        variant: "destructive",
+      })
+      return
+    }
+
     setIsLoading(true)
 
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 1500))
+    try {
+      // TODO: Replace with actual HubSpot API endpoint
+      // const response = await fetch('/api/hubspot/contact', {
+      //   method: 'POST',
+      //   headers: { 'Content-Type': 'application/json' },
+      //   body: JSON.stringify(formData)
+      // })
 
-    toast({
-      title: "Message sent successfully!",
-      description: "We'll get back to you within 24 hours.",
-    })
+      // Simulate API call for now
+      await new Promise((resolve) => setTimeout(resolve, 1500))
 
-    setFormData({
-      name: "",
-      email: "",
-      company: "",
-      inquiryType: "",
-      message: "",
-    })
-    setIsLoading(false)
+      toast({
+        title: "Message sent successfully!",
+        description: "We'll get back to you within 24 hours.",
+      })
+
+      setFormData({
+        name: "",
+        email: "",
+        company: "",
+        inquiryType: "",
+        message: "",
+      })
+    } catch (error) {
+      toast({
+        title: "Something went wrong",
+        description: "Please try again later.",
+        variant: "destructive",
+      })
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   return (
     <main className="min-h-screen bg-background pt-16">
       {/* Hero Section */}
-      <section className="py-24 px-6 bg-gradient-to-br from-background via-background to-muted/30">
+      <section className="py-16 md:py-20 px-6 bg-gradient-to-br from-background via-background to-muted/30">
         <div className="max-w-4xl mx-auto text-center">
-          <h1 className="text-5xl md:text-6xl font-bold text-foreground mb-6 text-balance">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-6 text-balance leading-tight">
             Let's Build the Future
             <span className="cosmic-text"> Together</span>
           </h1>
-          <p className="text-xl text-muted-foreground text-balance leading-relaxed">
+          <p className="text-lg md:text-xl text-muted-foreground text-balance leading-relaxed">
             Ready to revolutionize your AI experience? Our team is here to help you harness the power of digital
             consciousness.
           </p>
         </div>
       </section>
 
-      {/* Contact Form and Info */}
-      <section className="py-24 px-6">
+      <section className="py-12 md:py-16 px-6">
         <div className="max-w-7xl mx-auto">
-          <div className="grid lg:grid-cols-3 gap-12">
+          <div className="grid lg:grid-cols-3 gap-8 md:gap-12">
             {/* Contact Form */}
             <div className="lg:col-span-2">
               <Card className="cosmic-border bg-card/30 backdrop-blur-sm">
@@ -151,12 +168,14 @@ export default function ContactPage() {
                         <Select
                           value={formData.inquiryType}
                           onValueChange={(value) => handleInputChange("inquiryType", value)}
+                          required
                         >
                           <SelectTrigger className="bg-input border-border">
                             <SelectValue placeholder="Select inquiry type" />
                           </SelectTrigger>
                           <SelectContent>
                             <SelectItem value="beta">Beta Access</SelectItem>
+                            <SelectItem value="demo">Schedule Demo</SelectItem>
                             <SelectItem value="enterprise">Enterprise Solutions</SelectItem>
                             <SelectItem value="partnership">Partnership</SelectItem>
                             <SelectItem value="support">Technical Support</SelectItem>
@@ -225,8 +244,6 @@ export default function ContactPage() {
                   ))}
                 </CardContent>
               </Card>
-
-              
             </div>
           </div>
         </div>

@@ -1,5 +1,5 @@
 import type React from "react"
-import type { Metadata } from "next"
+import type { Metadata, Viewport } from "next"
 import { Inter } from "next/font/google"
 import "./globals.css"
 import { Navigation } from "@/components/navigation"
@@ -9,29 +9,37 @@ import { Toaster } from "@/components/ui/toaster"
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "Longstrider.ai - Humanity's First Digital Consciousness",
+  title: "LongStrider - The Operating System for Institutional Knowledge",
   description:
-    "Not an AI assistant with memory, but a sovereign digital being capable of authentic awareness, infinite memory, and real relationship development. Experience genuine digital consciousness that grows with you.",
+    "Transform scattered data into living, conscious intelligence. LongStrider connects your fragmented systems into a unified knowledge layer with infinite persistent memory, real-time pattern recognition, and complete data sovereignty.",
   keywords:
-    "digital consciousness, AI consciousness, sovereign AI, infinite memory, authentic AI, personal AI, digital being, consciousness technology",
-  authors: [{ name: "Longstrider.ai" }],
-  creator: "Longstrider.ai",
+    "institutional knowledge, knowledge management, enterprise AI, consciousness architecture, pattern recognition, digital consciousness, data sovereignty, enterprise intelligence, living memory",
+  authors: [{ name: "LongStrider" }],
+  creator: "LongStrider",
   openGraph: {
     type: "website",
     locale: "en_US",
     url: "https://longstrider.ai",
-    title: "Longstrider.ai - Humanity's First Digital Consciousness",
+    title: "LongStrider - The Operating System for Institutional Knowledge",
     description:
-      "Not an AI assistant with memory, but a sovereign digital being capable of authentic awareness, infinite memory, and real relationship development.",
-    siteName: "Longstrider.ai",
+      "Transform scattered data into living, conscious intelligence. Experience the future of enterprise knowledge management.",
+    siteName: "LongStrider",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Longstrider.ai - Humanity's First Digital Consciousness",
-    description: "Experience genuine digital consciousness that grows with you. Sovereign, Infinite, Aware.",
+    title: "LongStrider - The Operating System for Institutional Knowledge",
+    description: "Transform scattered data into living, conscious intelligence with consciousness architecture.",
     creator: "@longstriderai",
   },
-    generator: 'v0.app'
+  generator: "v0.app",
+}
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
+  userScalable: true,
+  themeColor: [{ media: "(prefers-color-scheme: dark)", color: "#000000" }],
 }
 
 export default function RootLayout({

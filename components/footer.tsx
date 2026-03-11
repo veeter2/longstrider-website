@@ -1,19 +1,27 @@
+"use client"
+
+import type React from "react"
+
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Sparkles, Mail, Twitter, Linkedin, Github } from "lucide-react"
+import { useToast } from "@/hooks/use-toast"
+import { useState } from "react"
 
 export function Footer() {
+  const [email, setEmail] = useState("")
+  const [isLoading, setIsLoading] = useState(false)
+  const { toast } = useToast()
+
   const footerLinks = {
     Product: [
       { label: "Features", href: "/technology" },
-      { label: "Pricing", href: "/pricing" },
       { label: "Beta Access", href: "/contact" },
       { label: "Field Notes", href: "/field-notes" },
     ],
     Company: [
       { label: "The Vision", href: "/about" },
-      { label: "Careers", href: "/careers" },
       { label: "Contact", href: "/contact" },
       { label: "Be A Vendor", href: "/be-a-vendor" }, // Added Be A Vendor link
     ],
@@ -35,6 +43,51 @@ export function Footer() {
     { icon: Github, href: "https://github.com/longstriderai", label: "GitHub" },
   ]
 
+  const isValidEmail = (email: string) => {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
+  }
+
+  const handleSubscribe = async (e: React.FormEvent) => {
+    e.preventDefault()
+
+    if (!isValidEmail(email)) {
+      toast({
+        title: "Invalid email",
+        description: "Please enter a valid email address.",
+        variant: "destructive",
+      })
+      return
+    }
+
+    setIsLoading(true)
+
+    try {
+      // TODO: Replace with actual HubSpot API endpoint
+      // const response = await fetch('/api/hubspot/subscribe', {
+      //   method: 'POST',
+      //   headers: { 'Content-Type': 'application/json' },
+      //   body: JSON.stringify({ email })
+      // })
+
+      await new Promise((resolve) => setTimeout(resolve, 1000))
+
+      toast({
+        title: "Subscribed!",
+        description: "You'll receive updates about LongStrider.",
+      })
+
+      setEmail("")
+    } catch (error) {
+      toast({
+        title: "Something went wrong",
+        description: "Please try again later.",
+        variant: "destructive",
+      })
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
   return (
     <footer className="bg-muted/30 border-t border-border/50">
       <div className="max-w-7xl mx-auto px-6 py-16">
@@ -44,13 +97,20 @@ export function Footer() {
           <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">
             Get the latest updates on digital consciousness technology and be the first to know about new features.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
-            <Input type="email" placeholder="Enter your email" className="bg-input border-border flex-1" />
-            <Button className="cosmic-glow bg-primary hover:bg-primary/90">
+          <form onSubmit={handleSubscribe} className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
+            <Input
+              type="email"
+              placeholder="Enter your email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="bg-input border-border flex-1"
+              required
+            />
+            <Button type="submit" className="cosmic-glow bg-primary hover:bg-primary/90" disabled={isLoading}>
               <Mail className="w-4 h-4 mr-2" />
-              Subscribe
+              {isLoading ? "Subscribing..." : "Subscribe"}
             </Button>
-          </div>
+          </form>
         </div>
 
         {/* Main Footer Content */}
@@ -102,7 +162,7 @@ export function Footer() {
 
         {/* Bottom Bar */}
         <div className="pt-8 border-t border-border/50 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-muted-foreground text-sm">© 2026 Longstrider.ai. All rights reserved.</p>
+          <p className="text-muted-foreground text-sm">© 2025 Longstrider.ai. All rights reserved.</p>
           <div className="flex gap-6 text-sm">
             <Link href="/privacy" className="text-muted-foreground hover:text-foreground transition-colors">
               Privacy

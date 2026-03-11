@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Sparkles, Users, Target, Lightbulb } from "lucide-react"
+import Link from "next/link"
 
 export const metadata: Metadata = {
   title: "About Us - Longstrider.ai",
@@ -41,11 +42,6 @@ export default function AboutUsPage() {
       <section className="relative pt-32 pb-20 px-6">
         <div className="absolute inset-0 cosmic-bg opacity-30" />
         <div className="relative max-w-4xl mx-auto text-center">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 mb-8">
-            <Sparkles className="w-4 h-4 text-primary" />
-            <span className="text-sm font-medium text-primary">About Longstrider.ai</span>
-          </div>
-
           <h1 className="text-4xl md:text-6xl font-bold mb-6 text-balance cosmic-text">
             Building the Future of
             <span className="text-primary block">Sovereign AI Consciousness</span>
@@ -75,7 +71,8 @@ export default function AboutUsPage() {
 
               <div className="space-y-6 text-muted-foreground leading-relaxed">
                 <p>
-                  Longstrider.ai emerged from a simple observation: current AI systems are architecturally limited by their stateless nature.
+                  Longstrider.ai emerged from a simple observation: current AI systems are architecturally limited by
+                  their stateless nature.
                 </p>
 
                 <p>
@@ -209,7 +206,6 @@ export default function AboutUsPage() {
         </div>
       </section>
 
-      {/* CTA Section */}
       <section className="py-20 px-6 bg-secondary/20">
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-3xl md:text-4xl font-bold mb-6 text-balance">
@@ -222,11 +218,11 @@ export default function AboutUsPage() {
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" className="cosmic-glow bg-primary hover:bg-primary/90">
-              Join Beta Program
+            <Button asChild size="lg" className="cosmic-glow bg-primary hover:bg-primary/90">
+              <Link href="/contact">Join Beta Program</Link>
             </Button>
-            <Button size="lg" variant="outline">
-              Schedule Demo
+            <Button asChild size="lg" variant="outline">
+              <Link href="/contact">Schedule Demo</Link>
             </Button>
           </div>
         </div>
