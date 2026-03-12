@@ -1,253 +1,208 @@
-"use client"
+"use client";
 
-import type React from "react"
+import { useState } from "react";
+import { motion } from "framer-motion";
 
-import { useState } from "react"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Textarea } from "@/components/ui/textarea"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { useToast } from "@/hooks/use-toast"
-import { Mail, MapPin, Send, Loader2 } from "lucide-react"
+const GOLD       = "#c8a96e";
+const GOLD_LIGHT = "#d4b87c";
+
+const HS_PORTAL_ID = "243871028";
+const HS_FORM_GUID = "6ccbf5d8-fae4-4ee4-8fe5-48f749d33905";
+const HS_ENDPOINT  = `https://forms.hubspot.com/uploads/form/v2/${HS_PORTAL_ID}/${HS_FORM_GUID}`;
+
+const inputStyle = {
+  background: "rgba(255,255,255,0.06)",
+  border: "1px solid rgba(255,255,255,0.12)",
+  color: "rgba(255,255,255,0.88)",
+} as const;
+
+const inputFocus = (el: HTMLElement) => {
+  el.style.borderColor = `${GOLD}70`;
+  el.style.boxShadow   = `0 0 0 3px ${GOLD}12, 0 0 20px ${GOLD}14`;
+};
+const inputBlur = (el: HTMLElement) => {
+  el.style.borderColor = "rgba(255,255,255,0.12)";
+  el.style.boxShadow   = "none";
+};
 
 export default function ContactPage() {
-  const [isLoading, setIsLoading] = useState(false)
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    company: "",
-    inquiryType: "",
-    message: "",
-  })
-  const { toast } = useToast()
+  const [form, setForm] = useState({ firstname: "", lastname: "", email: "", company: "", broken: "" });
+  const [status, setStatus] = useState<"idle"|"submitting"|"success"|"error">("idle");
 
-  const contactInfo = [
-    {
-      icon: Mail,
-      title: "Email",
-      content: "hello@longstrider.ai",
-      description: "Send us a message anytime",
-    },
-    {
-      icon: MapPin,
-      title: "Location",
-      content: "Austin, TX",
-      description: "Pioneering from Texas",
-    },
-  ]
-
-  const handleInputChange = (field: string, value: string) => {
-    setFormData((prev) => ({ ...prev, [field]: value }))
-  }
-
-  const isValidEmail = (email: string) => {
-    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
-  }
+  const set = (k: string, v: string) => setForm(prev => ({ ...prev, [k]: v }));
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-
-    if (!isValidEmail(formData.email)) {
-      toast({
-        title: "Invalid email",
-        description: "Please enter a valid email address.",
-        variant: "destructive",
-      })
-      return
-    }
-
-    setIsLoading(true)
+    e.preventDefault();
+    if (status === "submitting") return;
+    setStatus("submitting");
 
     try {
-      // TODO: Replace with actual HubSpot API endpoint
-      // const response = await fetch('/api/hubspot/contact', {
-      //   method: 'POST',
-      //   headers: { 'Content-Type': 'application/json' },
-      //   body: JSON.stringify(formData)
-      // })
+      const params = new URLSearchParams();
+      params.append("firstname", form.firstname);
+      params.append("lastname",  form.lastname);
+      params.append("email",     form.email.trim().toLowerCase());
+      if (form.company) params.append("company", form.company);
+      if (form.broken)  params.append("message", form.broken);
+      params.append("hs_context", JSON.stringify({
+        pageUri: "https://longstrider.ai/contact",
+        pageName: "LongStrider — Schedule a Demo",
+      }));
 
-      // Simulate API call for now
-      await new Promise((resolve) => setTimeout(resolve, 1500))
+      const res = await fetch(HS_ENDPOINT, {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: params.toString(),
+      });
 
-      toast({
-        title: "Message sent successfully!",
-        description: "We'll get back to you within 24 hours.",
-      })
-
-      setFormData({
-        name: "",
-        email: "",
-        company: "",
-        inquiryType: "",
-        message: "",
-      })
-    } catch (error) {
-      toast({
-        title: "Something went wrong",
-        description: "Please try again later.",
-        variant: "destructive",
-      })
-    } finally {
-      setIsLoading(false)
+      if (res.ok || res.status === 204 || res.status === 302) {
+        setStatus("success");
+      } else {
+        const errBody = await res.text();
+        console.error("HubSpot error", res.status, errBody);
+        setStatus("error");
+      }
+    } catch (err) {
+      console.error("Submit failed", err);
+      setStatus("error");
     }
-  }
+  };
 
   return (
-    <main className="min-h-screen bg-background pt-16">
-      {/* Hero Section */}
-      <section className="py-16 md:py-20 px-6 bg-gradient-to-br from-background via-background to-muted/30">
-        <div className="max-w-4xl mx-auto text-center">
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-6 text-balance leading-tight">
-            Let's Build the Future
-            <span className="cosmic-text"> Together</span>
+    <div className="ls-bg min-h-screen text-white flex flex-col" style={{ fontFamily: "'Lora', Georgia, serif" }}>
+
+      {/* NAV */}
+      <nav
+        className="fixed top-0 left-0 right-0 z-50 px-8 py-5 flex items-center justify-between"
+        style={{ backdropFilter: "blur(12px)", background: "linear-gradient(to bottom, rgba(0,0,0,0.55), transparent)" }}
+      >
+        <a href="/" className="flex items-center gap-2.5">
+          <span
+            className="text-sm font-semibold tracking-[0.18em] uppercase"
+            style={{ fontFamily: "Inter, system-ui, sans-serif", background: `linear-gradient(135deg, #fff 0%, ${GOLD} 60%, #fff 100%)`, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}
+          >
+            LongStrider
+          </span>
+        </a>
+        <a
+          href="/"
+          className="px-4 py-2 text-[11px] tracking-[0.18em] uppercase font-medium rounded-full transition-all duration-300"
+          style={{ fontFamily: "Inter, system-ui, sans-serif", border: "1px solid rgba(255,255,255,0.12)", color: "rgba(255,255,255,0.55)", background: "rgba(255,255,255,0.03)" }}
+        >
+          ← Back
+        </a>
+      </nav>
+
+      <main className="flex-1 px-6 pt-24 pb-20">
+        <motion.div
+          className="w-full max-w-xl mx-auto"
+          initial={{ opacity: 0, y: 24 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+        >
+          <h1 className="text-4xl sm:text-5xl font-light tracking-tight mb-10 text-white text-center" style={{ textShadow: "0 0 30px rgba(255,255,255,0.1)" }}>
+            Let us show you what{" "}
+            <span style={{ color: GOLD }}>living memory</span> looks like.
           </h1>
-          <p className="text-lg md:text-xl text-muted-foreground text-balance leading-relaxed">
-            Ready to revolutionize your AI experience? Our team is here to help you harness the power of digital
-            consciousness.
-          </p>
-        </div>
-      </section>
 
-      <section className="py-12 md:py-16 px-6">
-        <div className="max-w-7xl mx-auto">
-          <div className="grid lg:grid-cols-3 gap-8 md:gap-12">
-            {/* Contact Form */}
-            <div className="lg:col-span-2">
-              <Card className="cosmic-border bg-card/30 backdrop-blur-sm">
-                <CardHeader>
-                  <CardTitle className="text-2xl text-foreground">Send us a message</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <form onSubmit={handleSubmit} className="space-y-6">
-                    <div className="grid md:grid-cols-2 gap-4">
-                      <div className="space-y-2">
-                        <Label htmlFor="name" className="text-foreground">
-                          Full Name *
-                        </Label>
-                        <Input
-                          id="name"
-                          value={formData.name}
-                          onChange={(e) => handleInputChange("name", e.target.value)}
-                          className="bg-input border-border"
-                          required
-                        />
-                      </div>
-                      <div className="space-y-2">
-                        <Label htmlFor="email" className="text-foreground">
-                          Email Address *
-                        </Label>
-                        <Input
-                          id="email"
-                          type="email"
-                          value={formData.email}
-                          onChange={(e) => handleInputChange("email", e.target.value)}
-                          className="bg-input border-border"
-                          required
-                        />
-                      </div>
-                    </div>
+          {status === "success" ? (
+            <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="text-center py-12">
+              <p className="text-3xl font-light mb-4" style={{ color: GOLD }}>Consider yourself known.</p>
+              <p className="text-base text-white/60 font-light leading-relaxed mb-2">
+                We'll reach out within one business day to schedule your walkthrough.
+              </p>
+              <p className="text-sm text-white/35 font-light mb-10">
+                LongStrider remembers the first time you reached out.
+              </p>
+              <a href="/" className="text-xs tracking-[0.2em] uppercase text-white/30 hover:text-white/55 transition-colors" style={{ fontFamily: "Inter, system-ui, sans-serif" }}>
+                ← Back to home
+              </a>
+            </motion.div>
+          ) : (
+            <form
+              onSubmit={handleSubmit}
+              className="space-y-6 rounded-2xl p-8 sm:p-10"
+              style={{
+                background: "rgba(255,255,255,0.025)",
+                border: "1px solid rgba(255,255,255,0.08)",
+                boxShadow: `0 0 60px rgba(200,169,110,0.05), inset 0 1px 0 rgba(255,255,255,0.05)`,
+              }}
+            >
+              {/* Name */}
+              <div className="grid grid-cols-2 gap-4">
+                <Field label="First Name" value={form.firstname} onChange={v => set("firstname", v)} required />
+                <Field label="Last Name"  value={form.lastname}  onChange={v => set("lastname", v)}  required />
+              </div>
 
-                    <div className="grid md:grid-cols-2 gap-4">
-                      <div className="space-y-2">
-                        <Label htmlFor="company" className="text-foreground">
-                          Company
-                        </Label>
-                        <Input
-                          id="company"
-                          value={formData.company}
-                          onChange={(e) => handleInputChange("company", e.target.value)}
-                          className="bg-input border-border"
-                        />
-                      </div>
-                      <div className="space-y-2">
-                        <Label htmlFor="inquiryType" className="text-foreground">
-                          Inquiry Type *
-                        </Label>
-                        <Select
-                          value={formData.inquiryType}
-                          onValueChange={(value) => handleInputChange("inquiryType", value)}
-                          required
-                        >
-                          <SelectTrigger className="bg-input border-border">
-                            <SelectValue placeholder="Select inquiry type" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="beta">Beta Access</SelectItem>
-                            <SelectItem value="demo">Schedule Demo</SelectItem>
-                            <SelectItem value="enterprise">Enterprise Solutions</SelectItem>
-                            <SelectItem value="partnership">Partnership</SelectItem>
-                            <SelectItem value="support">Technical Support</SelectItem>
-                            <SelectItem value="media">Media Inquiry</SelectItem>
-                            <SelectItem value="other">Other</SelectItem>
-                          </SelectContent>
-                        </Select>
-                      </div>
-                    </div>
+              <Field label="Email" type="email" value={form.email} onChange={v => set("email", v)} required />
+              <Field label="Company (optional)" value={form.company} onChange={v => set("company", v)} />
 
-                    <div className="space-y-2">
-                      <Label htmlFor="message" className="text-foreground">
-                        Message *
-                      </Label>
-                      <Textarea
-                        id="message"
-                        value={formData.message}
-                        onChange={(e) => handleInputChange("message", e.target.value)}
-                        className="bg-input border-border min-h-32"
-                        placeholder="Tell us about your project or inquiry..."
-                        required
-                      />
-                    </div>
+              {/* The one question */}
+              <div>
+                <label
+                  className="block text-[10px] tracking-[0.28em] uppercase mb-2.5 font-medium"
+                  style={{ fontFamily: "Inter, system-ui, sans-serif", color: "rgba(255,255,255,0.55)" }}
+                >
+                  What's your biggest frustration with AI today?
+                </label>
+                <textarea
+                  rows={4}
+                  value={form.broken}
+                  onChange={e => set("broken", e.target.value)}
+                  placeholder="Be honest. We've heard it all — and we built LongStrider because of it."
+                  className="w-full px-5 py-4 rounded-sm text-sm leading-relaxed resize-none focus:outline-none transition-all duration-300"
+                  style={inputStyle}
+                  onFocus={e => inputFocus(e.currentTarget)}
+                  onBlur={e => inputBlur(e.currentTarget)}
+                />
+              </div>
 
-                    <Button
-                      type="submit"
-                      size="lg"
-                      className="cosmic-glow bg-primary hover:bg-primary/90 w-full"
-                      disabled={isLoading}
-                    >
-                      {isLoading ? (
-                        <>
-                          <Loader2 className="mr-2 w-5 h-5 animate-spin" />
-                          Sending...
-                        </>
-                      ) : (
-                        <>
-                          <Send className="mr-2 w-5 h-5" />
-                          Send Message
-                        </>
-                      )}
-                    </Button>
-                  </form>
-                </CardContent>
-              </Card>
-            </div>
+              <button
+                type="submit"
+                disabled={status === "submitting"}
+                className="w-full py-4 text-sm tracking-[0.18em] uppercase font-medium rounded-sm transition-all duration-300 hover:scale-[1.01] active:scale-[0.99] disabled:opacity-50"
+                style={{ fontFamily: "Inter, system-ui, sans-serif", backgroundColor: GOLD, color: "#0f172a" }}
+                onMouseEnter={e => { if (status !== "submitting") e.currentTarget.style.backgroundColor = GOLD_LIGHT; }}
+                onMouseLeave={e => (e.currentTarget.style.backgroundColor = GOLD)}
+              >
+                {status === "submitting" ? "One moment…" : "Request Early Access"}
+              </button>
 
-            {/* Contact Information */}
-            <div className="space-y-6">
-              <Card className="cosmic-border bg-card/30 backdrop-blur-sm">
-                <CardHeader>
-                  <CardTitle className="text-xl text-foreground">Get in Touch</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-6">
-                  {contactInfo.map((info, index) => (
-                    <div key={index} className="flex items-start gap-4">
-                      <div className="cosmic-glow w-10 h-10 bg-primary/20 rounded-full flex items-center justify-center flex-shrink-0">
-                        <info.icon className="w-5 h-5 text-primary" />
-                      </div>
-                      <div>
-                        <h3 className="font-semibold text-foreground mb-1">{info.title}</h3>
-                        <p className="text-primary font-medium mb-1 whitespace-pre-line">{info.content}</p>
-                        <p className="text-muted-foreground text-sm">{info.description}</p>
-                      </div>
-                    </div>
-                  ))}
-                </CardContent>
-              </Card>
-            </div>
-          </div>
-        </div>
-      </section>
-    </main>
-  )
+              {status === "error" && (
+                <p className="text-sm text-red-400/60 text-center font-light">
+                  Something went wrong — email us at hello@longstrider.ai
+                </p>
+              )}
+            </form>
+          )}
+        </motion.div>
+      </main>
+
+      <footer className="py-8 px-8 border-t border-white/[0.04] flex justify-between items-center">
+        <p className="text-[10px] text-white/20 tracking-widest" style={{ fontFamily: "Inter, system-ui, sans-serif" }}>© 2026 LongStrider Systems</p>
+        <a href="/privacy" className="text-[10px] text-white/20 hover:text-white/40 transition-colors" style={{ fontFamily: "Inter, system-ui, sans-serif" }}>Privacy</a>
+      </footer>
+    </div>
+  );
+}
+
+// ── Field component ──────────────────────────────────────────────────────────
+
+function Field({ label, value, onChange, type = "text", required = false }: {
+  label: string; value: string; onChange: (v: string) => void; type?: string; required?: boolean;
+}) {
+  return (
+    <div>
+      <label className="block text-[10px] tracking-[0.28em] uppercase mb-2.5 font-medium" style={{ fontFamily: "Inter, system-ui, sans-serif", color: "rgba(255,255,255,0.55)" }}>
+        {label}
+      </label>
+      <input
+        type={type} required={required} value={value}
+        onChange={e => onChange(e.target.value)}
+        className="w-full px-5 py-3.5 rounded-sm text-sm focus:outline-none transition-all duration-300"
+        style={{ background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.12)", color: "rgba(255,255,255,0.88)" }}
+        onFocus={e => { e.currentTarget.style.borderColor = `${GOLD}70`; e.currentTarget.style.boxShadow = `0 0 0 3px ${GOLD}12, 0 0 20px ${GOLD}14`; }}
+        onBlur={e => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.12)"; e.currentTarget.style.boxShadow = "none"; }}
+      />
+    </div>
+  );
 }

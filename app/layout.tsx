@@ -1,37 +1,34 @@
 import type React from "react"
 import type { Metadata, Viewport } from "next"
-import { Inter } from "next/font/google"
+import { Inter, Lora } from "next/font/google"
 import "./globals.css"
-import { Navigation } from "@/components/navigation"
-import { Footer } from "@/components/footer"
 import { Toaster } from "@/components/ui/toaster"
 
-const inter = Inter({ subsets: ["latin"] })
+const inter = Inter({ subsets: ["latin"], variable: "--font-inter" })
+const lora = Lora({ subsets: ["latin"], variable: "--font-lora" })
 
 export const metadata: Metadata = {
-  title: "LongStrider - The Operating System for Institutional Knowledge",
+  title: "LongStrider — The AI That Actually Knows You",
   description:
-    "Transform scattered data into living, conscious intelligence. LongStrider connects your fragmented systems into a unified knowledge layer with infinite persistent memory, real-time pattern recognition, and complete data sovereignty.",
+    "LongStrider is the first Living Memory system. It doesn't just remember — it understands how you think, what matters to you, and how your ideas connect over time. Request early access.",
   keywords:
-    "institutional knowledge, knowledge management, enterprise AI, consciousness architecture, pattern recognition, digital consciousness, data sovereignty, enterprise intelligence, living memory",
+    "living memory, AI memory, personal AI, digital consciousness, infinite memory, AI that knows you, longstrider",
   authors: [{ name: "LongStrider" }],
   creator: "LongStrider",
   openGraph: {
     type: "website",
     locale: "en_US",
     url: "https://longstrider.ai",
-    title: "LongStrider - The Operating System for Institutional Knowledge",
-    description:
-      "Transform scattered data into living, conscious intelligence. Experience the future of enterprise knowledge management.",
+    title: "LongStrider — The AI That Actually Knows You",
+    description: "The first Living Memory system. It doesn't just remember — it understands how you think.",
     siteName: "LongStrider",
   },
   twitter: {
     card: "summary_large_image",
-    title: "LongStrider - The Operating System for Institutional Knowledge",
-    description: "Transform scattered data into living, conscious intelligence with consciousness architecture.",
+    title: "LongStrider — The AI That Actually Knows You",
+    description: "Living Memory. The AI that actually knows you.",
     creator: "@longstriderai",
   },
-  generator: "v0.app",
 }
 
 export const viewport: Viewport = {
@@ -49,10 +46,8 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className="dark">
-      <body className={`${inter.className} antialiased`}>
-        <Navigation />
+      <body className={`${inter.variable} ${lora.variable} antialiased`}>
         {children}
-        <Footer />
         <Toaster />
       </body>
     </html>
