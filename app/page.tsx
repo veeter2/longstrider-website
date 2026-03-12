@@ -292,8 +292,8 @@ export default function HomePage() {
       </section>
 
       {/* ── PROBLEM ──────────────────────────────────────────────────── */}
-      <section className="py-36 sm:py-48 px-6">
-        <div className="max-w-2xl mx-auto space-y-14 sm:space-y-20">
+      <section className="py-20 sm:py-28 px-6">
+        <div className="max-w-2xl mx-auto space-y-10 sm:space-y-14">
           {[
             { text: "Every AI tool forgets you.", dim: true },
             { text: "Every conversation starts from zero.", dim: true },
@@ -313,7 +313,7 @@ export default function HomePage() {
 
       {/* ── FEATURES ─────────────────────────────────────────────────── */}
       <FadeIn>
-        <section className="py-16 sm:py-24 px-6">
+        <section className="py-10 sm:py-16 px-6">
           <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-5">
             {FEATURES.map((card, i) => (
               <div
@@ -339,71 +339,35 @@ export default function HomePage() {
         </section>
       </FadeIn>
 
-      {/* ── EMAIL CAPTURE ────────────────────────────────────────────── */}
-      <div className="max-w-xs mx-auto h-px" style={{ background: `linear-gradient(to right, transparent, ${GOLD}25, transparent)` }} />
 
+      {/* ── CTA ──────────────────────────────────────────────────────── */}
       <FadeIn>
-        <section ref={formRef} className="py-28 sm:py-36 px-6">
-          <div className="max-w-xl mx-auto text-center">
-            <p className="text-[10px] tracking-[0.35em] uppercase mb-7" style={{ fontFamily: "Inter, system-ui, sans-serif", color: `${GOLD}70` }}>
+        <section className="py-16 sm:py-20 px-6 text-center">
+          <div className="max-w-xl mx-auto">
+            <p className="text-[10px] tracking-[0.35em] uppercase mb-6" style={{ fontFamily: "Inter, system-ui, sans-serif", color: `${GOLD}70` }}>
               Living Memory — Early Access
             </p>
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-light tracking-tight mb-5 text-white">
               Ready to be known?
             </h2>
-            <p className="text-base text-white/35 leading-relaxed mb-12 font-light max-w-sm mx-auto">
+            <p className="text-base text-white/35 leading-relaxed mb-10 font-light max-w-sm mx-auto">
               We're opening access to a small group of people who are ready for AI that actually knows them.
             </p>
-
-            {status === "success" && (
-              <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} className="text-center">
-                <p className="text-2xl font-light mb-3" style={{ color: GOLD }}>LongStrider heard you.</p>
-                <p className="text-base text-white/60 font-light leading-relaxed">You're in. We'll reach out personally — this isn't an automated list.<br />We remember the first time you reached out.</p>
-              </motion.div>
-            )}
-
-            {status === "duplicate" && (
-              <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} className="text-center">
-                <p className="text-2xl font-light mb-3" style={{ color: GOLD }}>We already know you're here.</p>
-                <p className="text-sm text-white/45 font-light">You're on the list. LongStrider doesn't forget.</p>
-              </motion.div>
-            )}
-
-            {status !== "success" && status !== "duplicate" && (
-              <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
-                <input
-                  type="email"
-                  required
-                  value={email}
-                  onChange={e => setEmail(e.target.value)}
-                  placeholder="your@email.com"
-                  disabled={status === "submitting"}
-                  className="flex-1 px-5 py-4 bg-white/[0.04] border border-white/[0.07] rounded-sm text-white text-sm placeholder:text-white/20 focus:outline-none focus:border-white/18 transition-colors duration-300"
-                />
-                <button
-                  type="submit"
-                  disabled={status === "submitting"}
-                  className="px-6 py-4 text-sm tracking-[0.14em] uppercase font-medium rounded-sm transition-all duration-300 hover:scale-[1.02] active:scale-[0.97] whitespace-nowrap disabled:opacity-50"
-                  style={{ backgroundColor: GOLD, color: "#0f172a" }}
-                  onMouseEnter={e => { if (status !== "submitting") e.currentTarget.style.backgroundColor = GOLD_LIGHT; }}
-                  onMouseLeave={e => (e.currentTarget.style.backgroundColor = GOLD)}
-                >
-                  {status === "submitting" ? "One moment…" : "Request Early Access"}
-                </button>
-              </form>
-            )}
-
-            {status === "error" && (
-              <motion.p className="mt-4 text-sm text-red-400/60 font-light" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-                Something went wrong — please try again or email hello@longstrider.ai
-              </motion.p>
-            )}
+            <a
+              href="/contact"
+              className="inline-block px-10 py-4 text-sm tracking-[0.18em] uppercase font-medium rounded-sm transition-all duration-300 hover:scale-[1.02]"
+              style={{ backgroundColor: GOLD, color: "#0f172a" }}
+              onMouseEnter={e => (e.currentTarget.style.backgroundColor = GOLD_LIGHT)}
+              onMouseLeave={e => (e.currentTarget.style.backgroundColor = GOLD)}
+            >
+              Request Early Access
+            </a>
           </div>
         </section>
       </FadeIn>
 
       {/* ── FOOTER ───────────────────────────────────────────────────── */}
-      <footer className="py-14 px-6 border-t border-white/[0.04]">
+      <footer className="py-10 px-6 border-t border-white/[0.04]">
         <div className="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-[11px] text-white/22 tracking-widest font-light">
             © 2026 LongStrider Systems. All rights reserved.
