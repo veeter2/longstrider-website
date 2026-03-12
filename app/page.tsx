@@ -277,15 +277,15 @@ export default function HomePage() {
             </p>
 
             <div className="flex flex-col sm:flex-row gap-3 justify-center items-center">
-              <button
-                onClick={scrollToForm}
+              <a
+                href="/contact"
                 className="px-8 py-4 text-sm tracking-[0.18em] uppercase font-medium rounded-sm transition-all duration-300 hover:scale-[1.03] active:scale-[0.97]"
-                style={{ backgroundColor: GOLD, color: "#0f172a" }}
+                style={{ backgroundColor: GOLD, color: "#0f172a", display: "inline-block" }}
                 onMouseEnter={e => (e.currentTarget.style.backgroundColor = GOLD_LIGHT)}
                 onMouseLeave={e => (e.currentTarget.style.backgroundColor = GOLD)}
               >
                 Request Early Access
-              </button>
+              </a>
             </div>
           </motion.div>
         </div>
