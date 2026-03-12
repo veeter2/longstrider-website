@@ -259,9 +259,9 @@ export default function HomePage() {
         <div className="absolute bottom-0 left-0 right-0 h-[55vh] flex flex-col items-center justify-center px-6 pb-10">
           <motion.div
             className="text-center max-w-3xl mx-auto"
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: ep > 0.55 ? 1 : 0, y: ep > 0.55 ? 0 : 30 }}
-            transition={{ duration: 1.1, ease: [0.16, 1, 0.3, 1] }}
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1.1, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
           >
             <h1
               className="text-5xl sm:text-6xl md:text-7xl font-light tracking-tight mb-6 text-white"

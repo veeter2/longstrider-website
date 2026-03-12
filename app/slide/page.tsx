@@ -9,7 +9,7 @@ const QRCodeSVG = dynamic(
 );
 
 const GOLD = "#c8a96e";
-const URL  = "https://longstrider.ai";
+const URL  = "https://longstrider-landing.vercel.app";
 
 export default function SlidePage() {
   return (
@@ -116,7 +116,7 @@ export default function SlidePage() {
             className="tracking-[0.3em] uppercase text-sm mb-1"
             style={{ fontFamily: "Inter, system-ui, sans-serif", color: `${GOLD}90` }}
           >
-            longstrider.ai
+            longstrider-landing.vercel.app
           </p>
           <p
             className="tracking-[0.18em] uppercase text-xs"
@@ -167,7 +167,7 @@ export default function SlidePage() {
           letterSpacing: "0.38em",
           fontWeight: 600,
         }}>
-          longstrider.ai
+          longstrider-landing.vercel.app
         </span>
       </div>
 
