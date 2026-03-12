@@ -113,12 +113,6 @@ export default function SlidePage() {
 
         <div className="text-center">
           <p
-            className="tracking-[0.3em] uppercase text-sm mb-1"
-            style={{ fontFamily: "Inter, system-ui, sans-serif", color: `${GOLD}90` }}
-          >
-            longstrider-landing.vercel.app
-          </p>
-          <p
             className="tracking-[0.18em] uppercase text-xs"
             style={{ fontFamily: "Inter, system-ui, sans-serif", color: "rgba(255,255,255,0.25)" }}
           >
@@ -167,7 +161,7 @@ export default function SlidePage() {
           letterSpacing: "0.38em",
           fontWeight: 600,
         }}>
-          longstrider-landing.vercel.app
+          longstrider.ai
         </span>
       </div>
 
