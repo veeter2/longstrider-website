@@ -54,6 +54,9 @@ export default function HomePage() {
   const [osc, setOsc]           = useState(0);
   const formRef = useRef<HTMLDivElement>(null);
 
+  // Always start at top on load/refresh
+  useEffect(() => { window.scrollTo(0, 0); }, []);
+
   // Entrance animation progress
   useEffect(() => {
     const start = Date.now();
