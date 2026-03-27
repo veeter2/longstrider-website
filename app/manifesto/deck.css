@@ -90,6 +90,18 @@
   color: rgba(200, 169, 110, 0.65);
   letter-spacing: 0.05em;
 }
+.deck-nav-links {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+}
+.deck-nav-coming {
+  display: inline;
+}
+.deck-deploy-card {
+  padding: 28px 32px;
+}
+
 
 /* ── Main container (widened to 920px) ── */
 .deck-container {
@@ -758,6 +770,9 @@
   .deck-container { padding: 100px 20px 60px; }
   .deck-nav { padding: 14px 20px; }
   .deck-nav-tagline { display: none; }
+  .deck-nav-coming { display: none; }
+  .deck-nav-links { gap: 16px; }
+  .deck-deploy-card { padding: 20px; }
   .deck-section { margin-bottom: 80px; }
   .deck-wordmark { font-size: clamp(32px, 11vw, 44px); margin-bottom: 12px; }
   .deck-tagline-row { font-size: 12px; letter-spacing: 0.08em; margin-bottom: 36px; }
@@ -784,4 +799,16 @@
   .deck-competitor { padding: 20px 22px; }
   .deck-tech-title { font-size: 16px; }
   .deck-tech-body { font-size: 15px; }
+}
+
+/* Very small phones (< 380px) */
+@media (max-width: 380px) {
+  .deck-nav { padding: 12px 16px; }
+  .deck-container { padding: 90px 16px 48px; }
+  .deck-wordmark { font-size: clamp(28px, 10vw, 38px); }
+  .deck-hero-heading { font-size: clamp(20px, 6.5vw, 26px); }
+  .deck-body { font-size: 15px; }
+  .deck-lead { font-size: 17px; }
+  .deck-tease-button { padding: 12px 24px; font-size: 14px; }
+  .deck-final-quote { padding: 36px 12px; font-size: 17px; }
 }

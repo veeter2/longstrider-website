@@ -1,26 +1,9 @@
 'use client';
 
 import React, { useEffect, useRef, useState, useCallback } from 'react';
+import Link from 'next/link';
+import Image from 'next/image';
 import './deck.css';
-
-// ── INLINE LOGO (no external dep) ─────────────────────────────
-function LongstriderLogo({ size = 24, style }: { size?: number; style?: React.CSSProperties }) {
-  return (
-    <svg width={size} height={size} viewBox="-1757.50 -91.69 2058.95 2017.21" fill="none" style={style}>
-      <defs>
-        <style>{`
-          .st0 { fill: #c3c3c3; } .st1 { fill: #606061; } .st2 { fill: #4c4b4a; }
-          .st3 { fill: #9b9c9c; } .st4 { fill: #717070; } .st5 { fill: #969898; }
-          .st6 { fill: #acadac; } .st7 { fill: #393e42; } .st8 { fill: #e5e7e6; }
-          .st9 { fill: #919192; } .st10 { fill: #8c8c8c; } .st11 { fill: #828382; }
-          .st12 { fill: #e6e8e8; } .st13 { fill: #6b6b6b; }
-        `}</style>
-      </defs>
-      <ellipse className="st8" cx="-648.61" cy="718.56" rx="41.98" ry="41.99"/>
-      <path className="st12" d="M-1264.17-39.19c6.06,1.37,12.04,3.5,18.17,5.42l13.68,4.29c10.22,3.2,20.08,5.86,29.78,9.68,2.07.82,3.9,1.34,6.08,1.94,52.05,14.19,185.11,67.97,234.84,92.77l51.48,25.67c22.99,11.46,44.6,23.92,66.82,37.14,73.37,43.63,143.01,92.49,207.86,147.46l11.56,9.8,22.88,20.06,11.41,10.64,18,17.06c11.63,11.02,22.81,22.22,33.84,33.84l16.57,17.45,8.69,9.4,7.55,8.48c4.87,5.46,9.82,10.82,14.08,16.74,1.38,1.92,2.98,2.95,4.44,4.7,10.4,12.42,20.19,24.9,30.44,37.43l5.09,6.22c43.97,53.73,80.17,113.13,112.87,174.74,31.34,59.04,57.47,121.04,77.92,184.8,26.34,82.16,42.3,166.53,48.8,251.9.44,5.84.81,10.63,1.04,16.22l.88,20.93.93,31.01c.44,14.67,1.11,29.44,0,44.06-.77,10.15-.66,19.84-1.01,29.82l-.68,19.53c-.16,4.47-.46,8.66-.84,13.17l-1.26,14.99c-7.83,93.41-26.21,185.32-55.52,274.81-19.17,58.55-41.96,115.48-69.44,170.35l-23.38,46.7-18.49,36.54,70.3,6.39c4.76,1.65,16.65,1.33,22.99,2.87l29.98,2.84,7.99,1,11.99,1c-3.08,1.37-6.45,1.1-9.99,1l-10.97-1.06-13.02-.99-10.94-1.04-13.99-.99-14-1-13.06-.96-15.91-1.08-14.04-.93c-6.44-.42-12.46-.82-18.98-.94-5.09-.1-10.1-2.23-15.16.04-1.43,2.29-2.94,4.81-3.8,7.13-4.97,13.33-7.19,12.99-7.19,12.99l-1.36.91c-.55-.26-.58-1.64-.44-1.91.69-1.27.6-3.54,1.94-5.04,2.69-3.01,3.67-6.63,5.06-9.95.27-.65,1-1.16,1-2v-1c11.23-2.72-17.03-3.03-17.03-3.03-3.36-.05-6.4-1.88-9.99-.77-.21,4.49,1.13,9.05,3.04,12.8,0,.33.03.67,0,1-.7,6.71,5.02,20.61,3.58,26.06-1.38-2.86-.84-6.15-3.58-7.07l-4-12.99v-1c-.24-.42-.57-.77-1-1-.07-.28,0-.74,0-1-.03-1.32-.15-4.83-1.96-4.8-5.22.08-9.89-.76-14.94-1.04-13.07-.74-23.18-.92-35.66-1.59l-19.82-1.07-21-.98-25.14-.94-25.82-1.05-29.17-.91-34.81-1.01-48-.97-86.01-.97h-148.84s-100.95.97-100.95.97l-52.01.98-36.83.99-35.16.93-32.8,1.05-31.12.97-23.03.96-22.82,1.06-23.08.93c-15.5.62-28.03,1.45-43.43,2.32l-16.95.96-16.99.99-19.02.97-15.96,1.01-15.99,1.01-15.99,1.01-17,.99-15.98,1.02-17.01,1-12.02.96-15.94,1.05-16,1.02-14.08.95-13,1c-2.45.19-4.19,1.24-5.97,1.25v1c-8.34.47-17.09.89-25.07,3.57,3.27,1.45,5.95-.54,9.04-.58,4.32-.06,8.38.55,12.03-.98,1.36-.57,2.79-1.16,4-2.01,1.55-.09,3.82-1.1,5.93-1.26l13.8-1.08c4.8-.37,8.82-2.53,13.25-1.42.77-1.29,2.53-.1,4.01,1.29,1.78,1.24,4.21-.4,5.01,1.47-12.06-.03-26.15,2.93-37.98,3.01l-8.99-.1c2.59-1.36,6.63-1.8,8.99.1l-9.99,0c2.75-1.68,7.31-1.78,9.99,0l-9.99,0c2.76-1.75,7.14-1.62,9.99-.13l-10.99,0c3.17-.73-24,1.88-23.08.95l.09-1.01z"/>
-    </svg>
-  );
-}
 
 // ── SECTION IDS & TIMELINE CONFIG ─────────────────────────────
 
@@ -173,18 +156,32 @@ export default function ManifestoPage() {
       <div className="deck-aurora-3" />
 
       <nav className="deck-nav">
-        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-          <LongstriderLogo size={38} style={{ opacity: 0.85 }} />
+        <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: '12px', textDecoration: 'none' }}>
+          <Image
+            src="/images/longstrider-logo.png"
+            alt="LongStrider Logo"
+            width={38}
+            height={38}
+            style={{ opacity: 0.85 }}
+          />
           <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
             <span className="deck-nav-logo">LongStrider</span>
             <span style={{ fontSize: '10px', letterSpacing: '0.12em', textTransform: 'uppercase', opacity: 0.4, color: '#c8a96e' }}>The Manifesto</span>
           </div>
-        </div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '28px' }}>
-          <span style={{ fontFamily: "'Lora', Georgia, serif", fontSize: '12px', letterSpacing: '0.05em', opacity: 0.25, color: 'rgba(200,169,110,1)', cursor: 'default' }}>
+        </Link>
+        <div className="deck-nav-links">
+          <Link
+            href="/"
+            style={{ fontFamily: "'Lora', Georgia, serif", fontSize: '12px', letterSpacing: '0.05em', opacity: 0.5, color: 'rgba(200,169,110,1)', cursor: 'pointer', textDecoration: 'none', transition: 'opacity 0.2s' }}
+            onMouseEnter={(e) => e.currentTarget.style.opacity = '0.8'}
+            onMouseLeave={(e) => e.currentTarget.style.opacity = '0.5'}
+          >
+            Home
+          </Link>
+          <span className="deck-nav-coming" style={{ fontFamily: "'Lora', Georgia, serif", fontSize: '12px', letterSpacing: '0.05em', opacity: 0.25, color: 'rgba(200,169,110,1)', cursor: 'default' }}>
             Architecture <span style={{ fontSize: '9px', letterSpacing: '0.1em', opacity: 0.7 }}>— coming</span>
           </span>
-          <span style={{ fontFamily: "'Lora', Georgia, serif", fontSize: '12px', letterSpacing: '0.05em', opacity: 0.25, color: 'rgba(200,169,110,1)', cursor: 'default' }}>
+          <span className="deck-nav-coming" style={{ fontFamily: "'Lora', Georgia, serif", fontSize: '12px', letterSpacing: '0.05em', opacity: 0.25, color: 'rgba(200,169,110,1)', cursor: 'default' }}>
             About <span style={{ fontSize: '9px', letterSpacing: '0.1em', opacity: 0.7 }}>— coming</span>
           </span>
         </div>
@@ -221,7 +218,6 @@ export default function ManifestoPage() {
           <div data-reveal>
             <div className="deck-wordmark">LongStrider</div>
             <div className="deck-tagline-row">Sovereign · Persistent · Compounding · Living Memory</div>
-            <div style={{ fontFamily: "'Lora', Georgia, serif", fontSize: '12px', letterSpacing: '0.14em', color: 'rgba(200,169,110,0.6)', textTransform: 'uppercase', marginTop: '-40px', marginBottom: '56px' }}>Eight minutes · One decision</div>
           </div>
           <div data-reveal data-delay="1" className="deck-divider" />
           <div data-reveal data-delay="2">
@@ -340,7 +336,6 @@ export default function ManifestoPage() {
               onClick={() => setIsRevealed(true)}
             >
               <span>Continue Reading</span>
-              <span style={{ fontSize: '13px', opacity: 0.6 }}>· 4 min remaining</span>
             </button>
             <p className="deck-tease-hint">Three scenarios. Four kinds of organizations. Five capabilities no one else has built. One decision.</p>
           </div>
@@ -433,19 +428,19 @@ export default function ManifestoPage() {
                 </p>
               </div>
               <div data-reveal data-delay="2" style={{ marginTop: '40px', display: 'flex', flexDirection: 'column', gap: '32px' }}>
-                <div style={{ padding: '28px 32px', border: '1px solid rgba(200,169,110,0.2)', borderRadius: '4px', background: 'rgba(200,169,110,0.04)' }}>
+                <div className="deck-deploy-card" style={{ border: '1px solid rgba(200,169,110,0.2)', borderRadius: '4px', background: 'rgba(200,169,110,0.04)' }}>
                   <div style={{ fontSize: '11px', letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(200,169,110,0.7)', marginBottom: '10px', fontFamily: "'Lora', Georgia, serif" }}>Hosted Intelligence</div>
                   <p className="deck-body" style={{ marginBottom: 0 }}>Your data stays in your environment. The intelligence engine runs in a dedicated instance we operate — isolated to your organization, accessible via API, no shared infrastructure. You own the knowledge. We run the engine.</p>
                 </div>
-                <div style={{ padding: '28px 32px', border: '1px solid rgba(200,169,110,0.15)', borderRadius: '4px', background: 'rgba(200,169,110,0.025)' }}>
+                <div className="deck-deploy-card" style={{ border: '1px solid rgba(200,169,110,0.15)', borderRadius: '4px', background: 'rgba(200,169,110,0.025)' }}>
                   <div style={{ fontSize: '11px', letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(200,169,110,0.6)', marginBottom: '10px', fontFamily: "'Lora', Georgia, serif" }}>Private Cloud</div>
                   <p className="deck-body" style={{ marginBottom: 0 }}>For organizations requiring complete network control. The intelligence engine deploys as containerized software into your private cloud — your VPC, your servers, your perimeter. No external calls. No source code. Full data residency.</p>
                 </div>
-                <div style={{ padding: '28px 32px', border: '1px solid rgba(200,169,110,0.1)', borderRadius: '4px', background: 'rgba(200,169,110,0.015)' }}>
+                <div className="deck-deploy-card" style={{ border: '1px solid rgba(200,169,110,0.1)', borderRadius: '4px', background: 'rgba(200,169,110,0.015)' }}>
                   <div style={{ fontSize: '11px', letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(200,169,110,0.5)', marginBottom: '10px', fontFamily: "'Lora', Georgia, serif" }}>Sovereign Build</div>
                   <p className="deck-body" style={{ marginBottom: 0 }}>For the most sensitive environments. We build alongside your team — containerized, compiled, no source code transferred. When the engagement is complete, the intelligence layer, the knowledge graph, and every compounding insight belong to you. Permanently.</p>
                 </div>
-                <div style={{ padding: '28px 32px', border: '1px solid rgba(200,169,110,0.08)', borderRadius: '4px', background: 'rgba(200,169,110,0.015)' }}>
+                <div className="deck-deploy-card" style={{ border: '1px solid rgba(200,169,110,0.08)', borderRadius: '4px', background: 'rgba(200,169,110,0.015)' }}>
                   <div style={{ fontSize: '11px', letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(200,169,110,0.45)', marginBottom: '10px', fontFamily: "'Lora', Georgia, serif" }}>Partner Program</div>
                   <p className="deck-body" style={{ marginBottom: 0 }}>Deploy LongStrider under your brand, in your client environments. For consultancies, managed service providers, and technology firms building institutional intelligence into their own offerings. You bring the relationships and the vertical knowledge. The intelligence engine is yours to operate, configure, and take to market.</p>
                 </div>
