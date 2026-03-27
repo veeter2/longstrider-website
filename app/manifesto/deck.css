@@ -1,0 +1,787 @@
+/* =============================================
+   DECK PAGE — Living Pitch Document
+   Extends the Longstrider design system
+   Premium Polish Pass — Five-star typography
+   ============================================= */
+
+.deck-page {
+  min-height: 100vh;
+  background: #080809;
+  position: relative;
+  overflow-x: hidden;
+
+  /* ── Expensive type treatment (ink, not pixels) ── */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: geometricPrecision;
+  font-kerning: normal;
+  font-variant-ligatures: common-ligatures;
+  text-shadow:
+    0 0 1px rgba(255, 255, 255, 0.06),
+    0 1px 0 rgba(0, 0, 0, 0.35);
+  font-feature-settings: "kern" 1, "liga" 1, "clig" 1, "calt" 1;
+}
+
+/* ── Aurora gradient orbs ── */
+.deck-aurora-1,
+.deck-aurora-2,
+.deck-aurora-3 {
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(130px);
+  pointer-events: none;
+  animation: auroraShift 28s ease-in-out infinite;
+}
+.deck-aurora-1 {
+  width: 900px; height: 900px;
+  top: -250px; left: -250px;
+  background: radial-gradient(circle, rgba(139, 92, 246, 1), transparent 70%);
+  opacity: 0.025;
+}
+.deck-aurora-2 {
+  width: 700px; height: 700px;
+  top: 45%; right: -200px;
+  background: radial-gradient(circle, rgba(200, 169, 110, 1), transparent 70%);
+  opacity: 0.018;
+  animation-delay: -10s;
+}
+.deck-aurora-3 {
+  width: 600px; height: 600px;
+  bottom: 5%; left: 25%;
+  background: radial-gradient(circle, rgba(164, 195, 255, 1), transparent 70%);
+  opacity: 0.018;
+  animation-delay: -19s;
+}
+
+/* ── Progress bar ── */
+.deck-progress {
+  position: fixed;
+  top: 0; left: 0;
+  height: 2px;
+  background: linear-gradient(to right, rgba(200, 169, 110, 0.9), rgba(164, 195, 255, 0.7));
+  transition: width 0.15s ease;
+  z-index: 100;
+}
+
+/* ── Fixed nav ── */
+.deck-nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 50;
+  padding: 20px 48px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(8, 8, 9, 0.85);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+}
+.deck-nav-logo {
+  font-family: 'Lora', Georgia, serif;
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.9);
+}
+.deck-nav-tagline {
+  font-family: 'Lora', Georgia, serif;
+  font-size: 12px;
+  color: rgba(200, 169, 110, 0.65);
+  letter-spacing: 0.05em;
+}
+
+/* ── Main container (widened to 920px) ── */
+.deck-container {
+  max-width: 920px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 48px 120px;
+}
+
+/* ── Section spacing ── */
+.deck-section {
+  margin-bottom: 140px;
+}
+
+/* ── Hero: full viewport centered ── */
+.deck-hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-top: 80px;
+  margin-bottom: 80px;
+}
+
+/* =============================================
+   SCROLL REVEAL
+   ============================================= */
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.85s cubic-bezier(0, 0, 0.2, 1),
+              transform 0.85s cubic-bezier(0, 0, 0.2, 1);
+}
+[data-reveal].deck-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+[data-reveal][data-delay="1"] { transition-delay: 100ms; }
+[data-reveal][data-delay="2"] { transition-delay: 220ms; }
+[data-reveal][data-delay="3"] { transition-delay: 340ms; }
+[data-reveal][data-delay="4"] { transition-delay: 460ms; }
+[data-reveal][data-delay="5"] { transition-delay: 580ms; }
+[data-reveal][data-delay="6"] { transition-delay: 700ms; }
+
+/* =============================================
+   TYPOGRAPHY
+   ============================================= */
+
+/* Wordmark — Display weight, clean white, commanding */
+.deck-wordmark {
+  font-family: 'Cormorant Garamond', 'Lora', Georgia, serif;
+  font-size: clamp(48px, 8vw, 80px);
+  font-weight: 300;
+  letter-spacing: -0.035em;
+  color: rgba(255, 255, 255, 0.98);
+  line-height: 1;
+  margin-bottom: 24px;
+}
+
+/* Tagline row — luxury brand pillars */
+.deck-tagline-row {
+  font-family: 'Lora', Georgia, serif;
+  font-size: 14px;
+  letter-spacing: 0.22em;
+  word-spacing: 0.3em;
+  color: rgba(200, 169, 110, 0.78);
+  margin-bottom: 56px;
+  text-transform: uppercase;
+  font-weight: 400;
+}
+
+/* Divider — whisper reveal */
+.deck-divider {
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(255,255,255,0.09) 30%, rgba(255,255,255,0.09) 70%, transparent);
+  margin: 0 0 56px 0;
+  transform-origin: left;
+  transform: scaleX(0);
+  opacity: 0;
+}
+.deck-divider.deck-visible {
+  animation: divider-whisper 1.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+@keyframes divider-whisper {
+  0%   { transform: scaleX(0); opacity: 0; }
+  20%  { opacity: 0.4; }
+  100% { transform: scaleX(1); opacity: 1; }
+}
+
+/* Section label */
+.deck-label {
+  font-family: 'Lora', Georgia, serif;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #c8a96e;
+  margin-bottom: 18px;
+}
+
+/* Hero heading — large, tight, confident */
+.deck-hero-heading {
+  font-family: 'Lora', Georgia, serif;
+  font-size: clamp(28px, 5vw, 46px);
+  font-weight: 500;
+  line-height: 1.18;
+  letter-spacing: -0.025em;
+  color: rgba(255, 255, 255, 0.97);
+  margin-bottom: 40px;
+}
+
+/* Section heading */
+.deck-heading {
+  font-family: 'Lora', Georgia, serif;
+  font-size: clamp(24px, 4vw, 36px);
+  font-weight: 500;
+  line-height: 1.24;
+  letter-spacing: -0.02em;
+  color: rgba(255, 255, 255, 0.95);
+  margin-bottom: 32px;
+}
+
+/* Lead text — opening punch */
+.deck-lead {
+  font-family: 'Lora', Georgia, serif;
+  font-size: 21px;
+  line-height: 1.62;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.92);
+  margin-bottom: 28px;
+}
+
+/* Body text — the workhorse */
+.deck-body {
+  font-family: 'Lora', Georgia, serif;
+  font-size: 18px;
+  line-height: 1.78;
+  color: rgba(255, 255, 255, 0.92);
+  margin-bottom: 24px;
+  font-optical-sizing: auto;
+}
+.deck-body:last-child { margin-bottom: 0; }
+
+/* Pain points — inscription-style stacked lines */
+.deck-pain-points {
+  margin-bottom: 36px;
+}
+.deck-pain-opener {
+  font-family: 'Lora', Georgia, serif;
+  font-size: 19px;
+  line-height: 1.65;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.88);
+  margin-bottom: 28px;
+}
+.deck-pain-line {
+  font-family: 'Lora', Georgia, serif;
+  font-size: 18px;
+  line-height: 1.65;
+  color: rgba(255, 255, 255, 0.84);
+  padding: 6px 0;
+}
+.deck-pain-closer {
+  font-family: 'Lora', Georgia, serif;
+  font-size: 19px;
+  line-height: 1.65;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.92);
+  margin-top: 28px;
+}
+
+/* ── CTA MOMENT ── */
+.deck-cta-moment {
+  margin-top: 52px;
+  padding-top: 36px;
+  position: relative;
+}
+.deck-cta-moment::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 60%;
+  height: 1px;
+  background: linear-gradient(to right, rgba(200, 169, 110, 0.35), transparent);
+}
+.deck-cta-text {
+  font-family: 'Lora', Georgia, serif;
+  font-size: 20px;
+  font-style: italic;
+  color: #c8a96e;
+}
+
+/* =============================================
+   HOW IT WORKS — Capabilities
+   ============================================= */
+.deck-capability {
+  display: flex;
+  gap: 28px;
+  padding: 30px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.055);
+}
+.deck-capability:first-child { border-top: 1px solid rgba(255,255,255,0.055); }
+.deck-capability-number {
+  font-family: 'Lora', Georgia, serif;
+  font-size: 13px;
+  color: rgba(200, 169, 110, 0.88);
+  min-width: 28px;
+  padding-top: 3px;
+  letter-spacing: 0.06em;
+  font-variant-numeric: tabular-nums lining-nums;
+}
+.deck-capability-title {
+  font-family: 'Lora', Georgia, serif;
+  font-size: 18px;
+  font-weight: 500;
+  font-style: italic;
+  color: rgba(255,255,255,0.93);
+  margin-bottom: 10px;
+}
+.deck-capability-body {
+  font-family: 'Lora', Georgia, serif;
+  font-size: 17px;
+  line-height: 1.72;
+  color: rgba(255,255,255,0.85);
+}
+
+/* =============================================
+   SCENARIOS (Cards)
+   ============================================= */
+.deck-scenario {
+  padding: 40px;
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 14px;
+  margin-bottom: 20px;
+  position: relative;
+  overflow: hidden;
+}
+.deck-scenario::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(200, 169, 110, 0.28), transparent);
+}
+.deck-scenario-title {
+  font-family: 'Lora', Georgia, serif;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: rgba(200, 169, 110, 0.88);
+  margin-bottom: 22px;
+}
+
+/* =============================================
+   PERSONAS
+   ============================================= */
+.deck-persona {
+  padding: 30px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+.deck-persona:first-child { border-top: 1px solid rgba(255,255,255,0.05); }
+.deck-persona-type {
+  font-family: 'Lora', Georgia, serif;
+  font-size: 18px;
+  font-weight: 500;
+  font-style: italic;
+  color: rgba(255,255,255,0.93);
+  margin-bottom: 12px;
+}
+.deck-persona-body {
+  font-family: 'Lora', Georgia, serif;
+  font-size: 17px;
+  line-height: 1.74;
+  color: rgba(255,255,255,0.85);
+}
+
+/* =============================================
+   PRICING CARDS
+   ============================================= */
+.deck-pricing-card {
+  padding: 44px;
+  background: rgba(255,255,255,0.022);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 16px;
+  margin-bottom: 16px;
+  position: relative;
+  overflow: hidden;
+  transition: background 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
+}
+.deck-pricing-card:hover {
+  background: rgba(255,255,255,0.038);
+  border-color: rgba(200, 169, 110, 0.2);
+  transform: translateY(-2px);
+}
+.deck-pricing-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(200, 169, 110, 0.22), transparent);
+}
+
+/* Lead pricing card — gold accent for emphasis */
+.deck-pricing-card-lead {
+  border-left: 2px solid rgba(200, 169, 110, 0.4);
+  background: rgba(200, 169, 110, 0.015);
+}
+.deck-pricing-card-lead:hover {
+  border-color: rgba(200, 169, 110, 0.35);
+  border-left-color: rgba(200, 169, 110, 0.6);
+  background: rgba(200, 169, 110, 0.03);
+}
+
+.deck-price-label {
+  font-family: 'Lora', Georgia, serif;
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(200, 169, 110, 0.65);
+  margin-bottom: 14px;
+  font-weight: 500;
+}
+.deck-price {
+  font-family: 'Lora', Georgia, serif;
+  font-size: 30px;
+  font-weight: 500;
+  color: rgba(255,255,255,0.95);
+  margin-bottom: 22px;
+  letter-spacing: -0.02em;
+  font-variant-numeric: lining-nums tabular-nums;
+  font-feature-settings: "lnum", "tnum";
+}
+.deck-price-body {
+  font-family: 'Lora', Georgia, serif;
+  font-size: 17px;
+  line-height: 1.74;
+  color: rgba(255,255,255,0.75);
+  margin-bottom: 16px;
+}
+.deck-price-body:last-child { margin-bottom: 0; }
+.deck-price-detail {
+  font-family: 'Lora', Georgia, serif;
+  font-size: 15px;
+  line-height: 1.72;
+  color: rgba(255,255,255,0.5);
+  margin-bottom: 0;
+}
+
+/* =============================================
+   COMPETITIVE LANDSCAPE
+   ============================================= */
+.deck-competitor {
+  padding: 28px 32px;
+  border-left: 2px solid rgba(255,255,255,0.08);
+  margin-bottom: 28px;
+}
+.deck-competitor-name {
+  font-family: 'Lora', Georgia, serif;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.55);
+  margin-bottom: 12px;
+}
+.deck-competitor-body {
+  font-family: 'Lora', Georgia, serif;
+  font-size: 17px;
+  line-height: 1.74;
+  color: rgba(255,255,255,0.85);
+}
+
+/* =============================================
+   TECH SECTIONS (Under the Hood)
+   ============================================= */
+.deck-tech {
+  padding: 30px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+.deck-tech:first-child { border-top: 1px solid rgba(255,255,255,0.05); }
+.deck-tech-title {
+  font-family: 'Lora', Georgia, serif;
+  font-size: 18px;
+  font-weight: 500;
+  font-style: italic;
+  color: rgba(255,255,255,0.9);
+  margin-bottom: 12px;
+}
+.deck-tech-body {
+  font-family: 'Lora', Georgia, serif;
+  font-size: 17px;
+  line-height: 1.74;
+  color: rgba(255,255,255,0.68);
+}
+
+/* =============================================
+   TEASE BARRIER
+   ============================================= */
+.deck-tease {
+  position: relative;
+  margin-top: -160px;
+  padding-top: 160px;
+  background: linear-gradient(to bottom, transparent, #080809 55%);
+  text-align: center;
+  padding-bottom: 80px;
+}
+.deck-tease-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 42px;
+  background: transparent;
+  border: 1px solid rgba(200, 169, 110, 0.35);
+  border-radius: 100px;
+  font-family: 'Lora', Georgia, serif;
+  font-size: 16px;
+  font-style: italic;
+  color: rgba(255,255,255,0.95);
+  appearance: none;
+  -webkit-appearance: none;
+  cursor: pointer;
+  letter-spacing: 0.02em;
+  transition: all 0.45s cubic-bezier(0, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+/* Shimmer sweep animation */
+.deck-tease-button::before {
+  content: '';
+  position: absolute;
+  top: 0; left: -100%;
+  width: 100%; height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(200, 169, 110, 0.08),
+    transparent
+  );
+  animation: tease-shimmer 3.5s ease-in-out infinite;
+}
+@keyframes tease-shimmer {
+  0% { left: -100%; }
+  50% { left: 100%; }
+  100% { left: 100%; }
+}
+.deck-tease-button:hover {
+  background: rgba(200, 169, 110, 0.06);
+  border-color: rgba(200, 169, 110, 0.45);
+  color: rgba(255,255,255,0.98);
+  transform: translateY(-3px);
+  box-shadow: 0 12px 44px rgba(0,0,0,0.5), 0 0 30px rgba(200, 169, 110, 0.06);
+}
+.deck-tease-hint {
+  font-family: 'Lora', Georgia, serif;
+  font-size: 13px;
+  color: rgba(255,255,255,0.28);
+  margin-top: 20px;
+  font-style: italic;
+  letter-spacing: 0.03em;
+}
+
+/* =============================================
+   FINAL QUOTE
+   ============================================= */
+.deck-final-quote {
+  font-family: 'Cormorant Garamond', 'Lora', Georgia, serif;
+  font-size: clamp(20px, 3.2vw, 26px);
+  font-style: italic;
+  font-weight: 300;
+  line-height: 1.5;
+  color: rgba(255,255,255,0.88);
+  text-align: center;
+  padding: 72px 32px;
+  border-top: 1px solid rgba(255,255,255,0.06);
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  margin: 80px 0;
+}
+
+/* =============================================
+   FOOTER
+   ============================================= */
+.deck-footer {
+  margin-top: 120px;
+  padding: 80px 0 60px;
+  text-align: center;
+  border-top: 1px solid rgba(255,255,255,0.06);
+}
+.deck-footer-headline {
+  font-family: 'Lora', Georgia, serif;
+  font-size: clamp(18px, 2.8vw, 22px);
+  font-style: italic;
+  font-weight: 500;
+  color: rgba(255,255,255,0.88);
+  margin-bottom: 24px;
+  line-height: 1.5;
+}
+.deck-footer-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 40px;
+  background: rgba(200, 169, 110, 0.08);
+  border: 1px solid rgba(200, 169, 110, 0.45);
+  border-radius: 100px;
+  font-family: 'Lora', Georgia, serif;
+  font-size: 15px;
+  font-style: italic;
+  color: #c8a96e;
+  cursor: pointer;
+  letter-spacing: 0.03em;
+  text-decoration: none;
+  transition: all 0.35s cubic-bezier(0, 0, 0.2, 1);
+  margin-bottom: 32px;
+}
+.deck-footer-button:hover {
+  background: rgba(200, 169, 110, 0.14);
+  border-color: rgba(200, 169, 110, 0.5);
+  color: #dcc38a;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.35), 0 0 20px rgba(200, 169, 110, 0.06);
+}
+.deck-footer-contact {
+  font-family: 'Lora', Georgia, serif;
+  font-size: 14px;
+  color: rgba(200, 169, 110, 0.75);
+  letter-spacing: 0.04em;
+}
+.deck-footer-contact a {
+  color: rgba(200, 169, 110, 0.75);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(200, 169, 110, 0.25);
+  transition: border-color 0.2s ease, color 0.2s ease;
+}
+.deck-footer-contact a:hover {
+  color: rgba(200, 169, 110, 0.95);
+  border-color: rgba(200, 169, 110, 0.5);
+}
+
+/* =============================================
+   FONT ENFORCEMENT — Override Inter inheritance
+   ============================================= */
+.deck-pricing-card,
+.deck-pricing-card *,
+.deck-scenario,
+.deck-scenario *,
+.deck-competitor,
+.deck-competitor *,
+.deck-tech,
+.deck-tech * {
+  font-family: 'Lora', Georgia, serif !important;
+}
+
+/* =============================================
+   TIMELINE NAVIGATION
+   ============================================= */
+.deck-timeline {
+  position: fixed;
+  right: unset;
+  left: 36px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 40;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+  pointer-events: none;
+}
+.deck-timeline.deck-timeline-visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.deck-timeline-line {
+  display: none;
+}
+
+.deck-timeline-node {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 0;
+  cursor: pointer;
+}
+
+.deck-timeline-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.12);
+  border: 1px solid rgba(255,255,255,0.08);
+  transition: all 0.45s cubic-bezier(0, 0, 0.2, 1);
+  flex-shrink: 0;
+  position: relative;
+}
+.deck-timeline-dot::after {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  background: transparent;
+  transition: background 0.45s ease, box-shadow 0.45s ease;
+}
+
+.deck-timeline-node.active .deck-timeline-dot {
+  width: 10px; height: 10px;
+  background: var(--node-color, #c8a96e);
+  border-color: var(--node-color, #c8a96e);
+  box-shadow: 0 0 12px var(--node-glow, rgba(200, 169, 110, 0.4));
+}
+.deck-timeline-node.passed .deck-timeline-dot {
+  background: var(--node-color, #c8a96e);
+  border-color: var(--node-color, #c8a96e);
+  opacity: 0.5;
+}
+
+.deck-timeline-label {
+  font-family: 'Lora', Georgia, serif;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0);
+  white-space: nowrap;
+  transition: color 0.35s ease, transform 0.35s ease;
+  transform: translateX(-4px);
+}
+.deck-timeline-node:hover .deck-timeline-label,
+.deck-timeline-node.active .deck-timeline-label {
+  color: rgba(255,255,255,0.55);
+  transform: translateX(0);
+}
+.deck-timeline-node.active .deck-timeline-label {
+  color: rgba(255,255,255,0.7);
+}
+
+/* =============================================
+   RESPONSIVE
+   ============================================= */
+
+/* Timeline hidden on narrower screens */
+@media (max-width: 1100px) {
+  .deck-timeline { display: none; }
+}
+
+/* Tablet */
+@media (max-width: 768px) {
+  .deck-container { padding: 120px 32px 80px; }
+  .deck-nav { padding: 16px 28px; }
+  .deck-section { margin-bottom: 100px; }
+  .deck-wordmark { font-size: clamp(36px, 10vw, 52px); }
+  .deck-hero-heading { font-size: clamp(24px, 5.5vw, 34px); }
+  .deck-heading { font-size: clamp(22px, 5vw, 30px); }
+  .deck-lead { font-size: 19px; }
+  .deck-body { font-size: 17px; line-height: 1.74; }
+  .deck-scenario { padding: 28px; }
+  .deck-pricing-card { padding: 32px; }
+  .deck-price { font-size: 26px; }
+}
+
+/* Mobile */
+@media (max-width: 640px) {
+  .deck-container { padding: 100px 20px 60px; }
+  .deck-nav { padding: 14px 20px; }
+  .deck-nav-tagline { display: none; }
+  .deck-section { margin-bottom: 80px; }
+  .deck-wordmark { font-size: clamp(32px, 11vw, 44px); margin-bottom: 12px; }
+  .deck-tagline-row { font-size: 12px; letter-spacing: 0.08em; margin-bottom: 36px; }
+  .deck-hero-heading { font-size: clamp(22px, 6vw, 30px); margin-bottom: 28px; }
+  .deck-heading { font-size: clamp(20px, 5.5vw, 26px); }
+  .deck-lead { font-size: 18px; }
+  .deck-body { font-size: 16px; line-height: 1.72; margin-bottom: 20px; }
+  .deck-capability { gap: 18px; padding: 22px 0; }
+  .deck-capability-title { font-size: 16px; }
+  .deck-capability-body { font-size: 15px; }
+  .deck-persona-type { font-size: 16px; }
+  .deck-persona-body { font-size: 15px; }
+  .deck-scenario { padding: 22px; margin-bottom: 14px; }
+  .deck-scenario-title { font-size: 12px; }
+  .deck-pricing-card { padding: 24px; }
+  .deck-price { font-size: 22px; }
+  .deck-price-body { font-size: 15px; }
+  .deck-price-detail { font-size: 14px; }
+  .deck-final-quote { font-size: 18px; padding: 48px 16px; }
+  .deck-tease-button { padding: 14px 32px; font-size: 15px; }
+  .deck-cta-moment { margin-top: 36px; padding-top: 28px; }
+  .deck-cta-text { font-size: 17px; }
+  .deck-footer-button { padding: 12px 32px; font-size: 14px; }
+  .deck-competitor { padding: 20px 22px; }
+  .deck-tech-title { font-size: 16px; }
+  .deck-tech-body { font-size: 15px; }
+}
