@@ -119,31 +119,38 @@ export default function HomePage() {
         style={{ backdropFilter: "blur(12px)", background: "linear-gradient(to bottom, rgba(0,0,0,0.55), transparent)" }}
       >
         {/* Logo */}
-        <div className="flex items-center gap-2.5">
-          <div className="relative">
-            <div
-              className="w-2 h-2 rounded-full"
-              style={{ backgroundColor: GOLD, boxShadow: `0 0 8px ${GOLD}` }}
-            />
-            <motion.div
-              className="absolute inset-0 rounded-full"
-              style={{ backgroundColor: GOLD }}
-              animate={{ scale: [1, 1.8, 1], opacity: [0.6, 0, 0.6] }}
-              transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
-            />
+        <a href="/" style={{ display: "flex", alignItems: "center", gap: "12px", textDecoration: "none" }}>
+          <img
+            src="/images/longstrider-logo.png"
+            alt="LongStrider"
+            style={{ width: 36, height: 36, opacity: 0.88 }}
+          />
+          <div style={{ display: "flex", flexDirection: "column", gap: "2px" }}>
+            <span
+              style={{
+                fontFamily: "'Lora', Georgia, serif",
+                fontSize: "15px",
+                fontWeight: 500,
+                letterSpacing: "0.08em",
+                textTransform: "uppercase",
+                color: "rgba(255,255,255,0.92)",
+              }}
+            >
+              LongStrider
+            </span>
+            <span
+              style={{
+                fontFamily: "'Lora', Georgia, serif",
+                fontSize: "10px",
+                letterSpacing: "0.12em",
+                textTransform: "uppercase",
+                color: `rgba(200,169,110,0.6)`,
+              }}
+            >
+              Living Memory
+            </span>
           </div>
-          <span
-            className="text-sm font-semibold tracking-[0.18em] uppercase"
-            style={{
-              fontFamily: "Inter, system-ui, -apple-system, sans-serif",
-              background: `linear-gradient(135deg, #fff 0%, ${GOLD} 60%, #fff 100%)`,
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
-            }}
-          >
-            LongStrider
-          </span>
-        </div>
+        </a>
 
         {/* Contact pill */}
         <a
