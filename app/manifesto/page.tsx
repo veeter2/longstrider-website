@@ -445,8 +445,8 @@ export default function ManifestoPage() {
                   <div style={{ fontSize: '11px', letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(200,169,110,0.5)', marginBottom: '10px', fontFamily: "'Lora', Georgia, serif" }}>Sovereign Build</div>
                   <p className="deck-body" style={{ marginBottom: 0 }}>For the most sensitive environments. We build alongside your team — containerized, compiled, no source code transferred. When the engagement is complete, the intelligence layer, the knowledge graph, and every compounding insight belong to you. Permanently.</p>
                 </div>
-                <div style={{ padding: '28px 32px', border: '1px solid rgba(139,92,246,0.15)', borderRadius: '4px', background: 'rgba(139,92,246,0.03)' }}>
-                  <div style={{ fontSize: '11px', letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(139,92,246,0.7)', marginBottom: '10px', fontFamily: "'Lora', Georgia, serif" }}>Partner Program</div>
+                <div style={{ padding: '28px 32px', border: '1px solid rgba(200,169,110,0.08)', borderRadius: '4px', background: 'rgba(200,169,110,0.015)' }}>
+                  <div style={{ fontSize: '11px', letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(200,169,110,0.45)', marginBottom: '10px', fontFamily: "'Lora', Georgia, serif" }}>Partner Program</div>
                   <p className="deck-body" style={{ marginBottom: 0 }}>Deploy LongStrider under your brand, in your client environments. For consultancies, managed service providers, and technology firms building institutional intelligence into their own offerings. You bring the relationships and the vertical knowledge. The intelligence engine is yours to operate, configure, and take to market.</p>
                 </div>
               </div>
